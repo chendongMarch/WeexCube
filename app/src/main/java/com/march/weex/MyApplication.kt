@@ -1,13 +1,11 @@
 package com.march.weex
 
 import android.app.Application
+import android.os.Environment
 import android.text.TextUtils
 import android.util.Log
-import com.march.wxcube.Weex
-import com.march.wxcube.WeexService
-
-//import com.march.wxcube.Weex
-import com.taobao.weex.InitConfig
+import com.march.wxcube.*
+import com.march.wxcube.manager.ManagerRegistry
 
 /**
  * CreateAt : 2018/3/27
@@ -19,7 +17,14 @@ class MyApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        Weex.getInst().init(this, true, object : WeexService {
+        val config = WeexConfig(this).apply {
+            debug = true
+            jsLoadStrategy = JsLoadStrategy.DEFAULT
+            jsCacheStrategy = JsCacheStrategy.PREPARE_ALL
+            jsFileCacheDir = Environment.getExternalStorageDirectory()
+        }
+
+        Weex.getInst().init(config, object : WeexInjector {
             override fun onErrorReport(throwable: Throwable?, errorMsg: String) {
                 if (throwable != null) {
                     Log.e("chendong", throwable.message)
@@ -31,13 +36,10 @@ class MyApplication : Application() {
 
             override fun onLog(tag: String, msg: String) {
                 Log.e(tag, msg)
-
-            }
-
-            override fun onInitWeex(builder: InitConfig.Builder) {
-
             }
         })
-        Weex.getInst().jsLoadStrategy = Weex.JsLoadStrategy.PREPARE_ALL
+        ManagerRegistry.ENV.registerEnv(0, "http://wanandroid.com/")
+        ManagerRegistry.ENV.registerEnv(1, "http://wanandroid.net/")
+        ManagerRegistry.ENV.mNowEnv = 0
     }
 }

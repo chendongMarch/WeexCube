@@ -37,8 +37,6 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.march.wxcube.ui.WeexActivity">
 
-        </activity>
     </application>
 </manifest>

@@ -4,12 +4,17 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+// project/build.gradle
+// apply from: 'https://coding.net/u/devlab/p/Resource/git/raw/master/android/project.gradle'
+def libs = rootProject.ext.libs
+def version = rootProject.ext.version
+
 android {
-    compileSdkVersion 26
+    compileSdkVersion version.compileSdkVersion
     defaultConfig {
         applicationId "com.march.weex"
         minSdkVersion 16
-        targetSdkVersion 26
+        targetSdkVersion version.targetSdkVersion
         versionCode 1
         versionName "1.0"
     }
@@ -24,6 +29,6 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-    implementation 'com.android.support:appcompat-v7:26.1.0'
+    implementation libs.appcompat_v7
     implementation project(':weex-cube')
 }

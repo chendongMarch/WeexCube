@@ -1,3 +1,5 @@
 include ':app'
 include ':weex-cube'
 include ':common'
+include ':webkit'
+include ':socialsdk'
