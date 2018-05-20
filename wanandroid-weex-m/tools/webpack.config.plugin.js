@@ -1,21 +1,21 @@
 // only build plugin module
-require('webpack')
-require('weex-loader')
+require('webpack');
+require('weex-loader');
 
-var path = require('path');
-var fs=require('fs');
+const path = require('path');
+const fs = require('fs');
 
-let root = process.cwd();
-
+const root = process.cwd();
+console.log(`chendong${  root}`);
 module.exports = {
   entry: {
-    plugins: [path.join(root,'plugins/plugin_bundle.js')],
+    plugins: [path.join(root, 'plugins/plugin_bundle.js')],
   },
   output: {
-    path: path.join(root,'web'),
-    filename: 'plugin.js'
+    path: path.join(root, 'web'),
+    filename: 'plugin.js',
   },
-  devtool:'inline-source-map',
+  devtool: 'inline-source-map',
   module: {
     loaders: [
       {
@@ -30,11 +30,11 @@ module.exports = {
       {
         test: /\.vue(\?[^?]+)?$/,
         loader: 'vue',
-      }
-    ]
+      },
+    ],
   },
-  
-  /*plugins: [
+
+  /* plugins: [
     new webpack.optimize.UglifyJsPlugin( {
       minimize : true,
       sourceMap : true,
@@ -43,6 +43,6 @@ module.exports = {
         warnings: false
       }
     } )
-  ]*/
-  
-}
+  ] */
+
+};

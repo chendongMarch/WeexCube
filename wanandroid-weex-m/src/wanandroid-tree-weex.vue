@@ -97,7 +97,7 @@ export default {
     },
     requestCategory(successCallback) {
       const self = this;
-      self.request({
+      self.requestWanAndroid({
         url: self.apiTreeCategory,
       }, (data) => {
         self.categoryList = data;
@@ -113,7 +113,7 @@ export default {
         return;
       }
 
-      self.request({
+      self.requestWanAndroid({
         url: `${self.apiArticles}${self.curPage}/json?cid=${self.curCid}`,
       }, (data) => {
         data.datas.forEach((item) => {

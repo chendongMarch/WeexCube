@@ -1,6 +1,6 @@
 const globalEvent = weex.requireModule('globalEvent');
 const debug = weex.requireModule('cube-debug');
-const cubeEvent = weex.requireModule('cube-event');
+const basic = weex.requireModule('cube-basic');
 
 export default {
   methods: {
@@ -13,7 +13,7 @@ export default {
         callback(data);
       });
       // 给该页面注册该事件
-      cubeEvent.registerEvent(key);
+      basic.registerEvent(key);
     },
   },
 };

@@ -1,7 +1,7 @@
 <template>
   <div class="content-wrap">
     <image :src="icon" class="icon-img"></image>
-    <text class="app-title"> WanAndroid 客户端 (Weex) </text>
+    <text class="app-title"> WanAndroid 客户端 (Weex)</text>
     <div class="center-block"></div>
     <div class="item-wrap" v-for="(item, index) in items" :key="index"
     @click="clickItem(item)" >

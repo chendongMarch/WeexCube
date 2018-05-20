@@ -60,7 +60,6 @@
 import { request } from '../components/mixins/weex-mixins';
 
 const debug = weex.requireModule('cube-debug');
-const cubeEvent = weex.requireModule('cube-event');
 const cubeBasic = weex.requireModule('cube-basic');
 
 export default {
@@ -77,7 +76,7 @@ export default {
     },
     clickTwoLevel(twoLevelCategory) {
       cubeBasic.close();
-      cubeEvent.postEvent('choose-category', { cid: twoLevelCategory.id });
+      cubeBasic.postEvent('choose-category', { cid: twoLevelCategory.id });
     },
   },
   created() {

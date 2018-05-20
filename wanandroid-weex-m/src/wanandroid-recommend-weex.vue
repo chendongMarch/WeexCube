@@ -73,7 +73,7 @@
   width: 750px;
   height: 400px;
   top: 160px;
-  left: 240px;
+  left: 200px;
 }
 .slider-item {
   width: 750px;
@@ -109,7 +109,6 @@
   const basic = weex.requireModule('cube-basic');
   const debug = weex.requireModule('cube-debug');
   const modal = weex.requireModule('cube-modal');
-  const cubeEvent = weex.requireModule('cube-event');
 
   export default {
     components: {
@@ -213,14 +212,14 @@
       },
       requestArticles(finishCallback) {
         const self = this;
-        self.request({
+        self.requestWanAndroid({
           url: `${self.apiArticleList}${self.curPage}/json`,
         }, (data) => {
           data.datas.forEach((item) => {
             if (item) {
               self.homeArticles.push(item);
             }
-          });
+          }); 
           self.curPage = data.curPage;
           self.isArticleOver = data.over;
           if (finishCallback) {
@@ -235,7 +234,7 @@
       },
       requestBanners() {
         const self = this;
-        self.request({
+        self.requestWanAndroid({
           url: self.apiBanner,
         }, (data) => {
           self.homeBanners = data;

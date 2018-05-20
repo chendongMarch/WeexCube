@@ -1,4 +1,4 @@
-include ':app'
+include ':app', ':scanner'
 include ':weex-cube'
 include ':common'
 include ':webkit'

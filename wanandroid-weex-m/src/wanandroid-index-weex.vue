@@ -1,11 +1,13 @@
 <template>
   <div class="content-wrap">
     <div class="header-wrap">
-      <text class="header-center">   </text>
-      <text class="header-center">{{curTab.title}}</text>
+      <div class="header-center-wrap">
+        <text class="header-center">{{curTab.title}}</text>
+      </div> 
+     
       <div class="header-right-wrap" v-if="curTab.tag === 'tree'" @click="clickShowFilter">
         <text class="header-right" >筛选</text>
-      </div>
+      </div>  
     </div> 
     <container class="container-wrap" :style="{height: (750*height/width)-216 +'px'}"></container>
     <div class="tab-wrap" :style="{height: 100 +'px'}">
@@ -34,6 +36,12 @@
   justify-content: center;
   align-items: center;
 }
+.header-center-wrap {
+  width: 750px;
+  height: 120px;
+  justify-content: center;
+  align-items: center;
+}
 .header-center {
   color: #1a1210;
   font-size: 34px;
@@ -48,9 +56,6 @@
 .header-right {
   color: #1a1210;
   font-size: 32px;
-}
-.container-wrap {
-  background-color:gray;
 }
 .tab-wrap {
   border-top-width: 2px;
@@ -78,7 +83,6 @@
   const basic = weex.requireModule('cube-basic');
   const debug = weex.requireModule('cube-debug');
   const statusBar = weex.requireModule('cube-statusbar');
-  const cubeEvent = weex.requireModule('cube-event');
 
   export default {
     data() {
@@ -102,21 +106,21 @@
         curTab: null,
         tabs: [{
           tag: 'recommend',
-          url: '/home/home-recommend-weex',
+          url: '/wanandroid/wanandroid-recommend-weex',
           title: '推荐',
           lazyLoad: false,
           indexPage: true,
           selected: true,
         }, {
           tag: 'tree',
-          url: '/home/home-tree-weex',
+          url: '/wanandroid/wanandroid-tree-weex',
           title: '体系',
           lazyLoad: false,
           indexPage: false,
           selected: false,
         }, {
           tag: 'about',
-          url: '/home/home-about-weex',
+          url: '/wanandroid/wanandroid-about-weex',
           title: '关于',
           lazyLoad: false,
           indexPage: false,
@@ -127,7 +131,7 @@
     },
     methods: {
       clickShowFilter() {
-        cubeEvent.postEvent('open-filter-dialog', {});
+        basic.postEvent('open-filter-dialog', {});
       },
       clickSwitchTab(tab) {
         const self = this;
@@ -140,12 +144,12 @@
       },
     },
     created() {
+      this.curTab = this.tabs[0];
       if (statusBar) {
         statusBar.transluteStatusBar();
         statusBar.setStatusBarLight();
       }
-      basic.loadTabPages(this.tabs);
-      this.curTab = this.tabs[0];
+      basic.loadTabs(this.tabs);
     },
   };
 </script>
