@@ -1,0 +1,13 @@
+{
+  "weexConfigUrl": "http://10.1.2.105:8081/weex-config.json",
+  "debug": true,
+  "jsLoadStrategy_comment": "net 0,file 1,assets 2,cache 3,default 4",
+  "jsCacheStrategy_comment": "prepareAll 0, lazyLoad 1, noCache 2",
+  "jsLoadStrategy": 1,
+  "jsCacheStrategy": 1,
+  "envs": {
+    "product": "http://wanandroid.com/",
+    "develop": "http://wanandroid.net/"
+  },
+  "nowEnv": "product"
+}

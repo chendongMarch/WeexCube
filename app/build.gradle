@@ -1,7 +1,6 @@
 apply plugin: 'com.android.application'
 
 apply plugin: 'kotlin-android'
-
 apply plugin: 'kotlin-android-extensions'
 
 // project/build.gradle
@@ -16,7 +15,7 @@ android {
         minSdkVersion 16
         targetSdkVersion version.targetSdkVersion
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.1"
     }
     buildTypes {
         release {
@@ -31,4 +30,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     implementation libs.appcompat_v7
     implementation project(':weex-cube')
+    implementation project(':debug')
+    implementation project(':common')
+    implementation libs.okhttp3
 }

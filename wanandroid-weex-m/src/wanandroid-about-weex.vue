@@ -54,10 +54,11 @@
 </style>
 
 <script>
-  import { size, router } from '../components/mixins/weex-mixins';
+  import './widget';
+  import { size } from '../components/mixins/weex-mixins';
 
   export default {
-    mixins: [size, router],
+    mixins: [size],
     data() {
       return {
         icon: 'http://olx4t2q6z.bkt.clouddn.com/18-4-7/11323316.jpg',
@@ -83,7 +84,7 @@
     },
     methods: {
       clickItem(item) {
-        this.openWeb(item.link);
+        this.$router.openWeb(item.link);
       },
     },
     created() {

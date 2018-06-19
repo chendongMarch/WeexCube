@@ -102,13 +102,9 @@
 </style>
 
 <script>
-  
+  import './widget';
   import { request } from '../components/mixins/weex-mixins';
   import Article from '../components/cube-article';
-
-  const basic = weex.requireModule('cube-basic');
-  const debug = weex.requireModule('cube-debug');
-  const modal = weex.requireModule('cube-modal');
 
   export default {
     components: {
@@ -177,7 +173,7 @@
     methods: {
       // 点击打开 web
       clickOpenDetail(link) {
-        basic.openWeb(link);
+        this.$router.openWeb(link);
       },
       onRefresh() {
         const self = this;
@@ -197,7 +193,7 @@
       onLoadMore() {
         const self = this;
         if (self.isArticleOver) {
-          modal.toast('没有更多数据');
+          this.$modal.toast('没有更多数据');
           self.loadingStatus.display = 'hide';
           return;
         }
@@ -229,7 +225,7 @@
           if (finishCallback) {
             finishCallback();
           }
-          modal.toast('请求失败');
+          this.$modal.toast('请求失败');
         });
       },
       requestBanners() {
@@ -239,7 +235,7 @@
         }, (data) => {
           self.homeBanners = data;
         }, () => {
-          modal.toast('请求失败');
+          this.$modal.toast('请求失败');
         });
       },
     },

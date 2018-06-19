@@ -66,9 +66,8 @@
 
 
 <script>
+import './widget';
 import Header from '../components/cube-header';
-
-const basic = weex.requireModule('cube-basic');
 
 export default {
   components: {
@@ -124,7 +123,7 @@ export default {
   },
   methods: {
     clickMsgItem(item) {
-      basic.openWeb(item.url);
+      this.$router.openWeb(item.url);
     },
   },
 };

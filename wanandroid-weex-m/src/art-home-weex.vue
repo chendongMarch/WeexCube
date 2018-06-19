@@ -19,7 +19,7 @@
       </header>
       <cell class="cell-wrap" v-for="(item,index) in channels" :key="index">
         <div class="item-wrap" @click="clickChannel(item)">
-          <image class="cover-image" :resize="item.resize || 'cover'" :src="item.cover"></image>
+          <image class="cover-image" resize="cover" :src="item.cover"></image>
           <div class="text-wrap">
             <text class="title-text">{{item.title}}</text>
           </div>
@@ -29,12 +29,8 @@
   </div>
 </template>
 
+<style src="./css/common.css"></style> 
 <style>
-.content-wrap {
-}
-.waterfall-list {
-  background-color: #efefef;
-}
 .cell-wrap {
   height: 450px;
   justify-content: center;
@@ -43,13 +39,13 @@
 .item-wrap {
   width: 320px;
   height: 410px;
-  background-color: white;
 }
 .cover-image {
   width: 320px;
   height: 320px;
 }
 .text-wrap {
+  background-color: white;
   height: 90px;
   justify-content: center;
   align-items: center;
@@ -67,7 +63,6 @@
   height: 400px;
 }
 .slider-img {
-  background-color: white;
   width: 750px;
   height: 400px;
 }
@@ -85,11 +80,10 @@
 <style src="./css/common.css"></style>
 
 <script>
+import './widget';
 import { makeBmobConfig } from './js/common';
 import Header from '../components/cube-header';
 import { request } from '../components/mixins/weex-mixins';
-
-const basic = weex.requireModule('cube-basic');
 
 export default {
   mixins: [request],
@@ -98,6 +92,7 @@ export default {
   },
   data() {
     return {
+      lastPressedTime: -1,
       homeBanners: [],
       channels: [
         {
@@ -107,7 +102,8 @@ export default {
         },
         {
           title: 'IT报',
-          cover: 'http://olx4t2q6z.bkt.clouddn.com/18-5-20/39396525.jpg',
+          // cover: 'http://olx4t2q6z.bkt.clouddn.com/18-5-20/39396525.jpg',
+          cover: 'http://cdn1.showjoy.com/images/40/401369905c324758938b185a1100a5a8.png.50x50.webp',
           channel: 'it-report',
         },
         // {
@@ -138,7 +134,7 @@ export default {
         },
         {
           title: '玩～Android',
-          cover: 'http://www.wanandroid.com/resources/image/pc/logo.png',
+          cover: 'http://olx4t2q6z.bkt.clouddn.com/18-2-1/42862847.jpg',
           resize: 'contain',
           link: '/wanandroid/wanandroid-index-weex',
         },
@@ -147,29 +143,60 @@ export default {
   },
   methods: {
     clickHomeBanner(item) {
-      basic.openWeb(item.content);
+      // this.$router.openWeb(item.content);
+      this.$router.openNative('com.march.debug.DebugActivity');
     },
     clickChannel(item) {
       if (item.channel) {
-        basic.openUrl(`/channel/channel-list-weex?channel=${item.channel}&title=${item.title}`);
+        this.$router.openUrl({
+          url: '/channel/channel-list-weex',
+          query: {
+            channel: item.channel,
+            title: item.title,
+          },
+        });
       } else if (item.link) {
-        basic.openUrl(item.link);
+        this.$router.openUrl(item.link);
       }
     },
     requestChannels() {
       const self = this;
       const config = makeBmobConfig('select * from Article where hot = ? limit ?,? count=0 order by -createdAt', 'true, 0, 5');
-      this.request(config, (resp) => {
-        if (resp && resp.results) {
-          resp.results.forEach((item) => {
-            self.homeBanners.push(item);
-          });
-        }
-      });
+      this.fetch(config)
+        .then((resp) => {
+          if (resp && resp.results) {
+            resp.results.forEach((item) => {
+              self.homeBanners.push(item);
+            });
+          }
+        })
+        .catch((error) => {
+          this.$debug(JSON.stringify(error));
+        });
     },
   },
   created() {
     this.requestChannels();
+    this.$page.initPage({
+      background: {
+        // color: '#efefef', // 纯色背景
+        image: 'http://cdn1.showjoy.com/images/df/dffde01d02634f08a0f0dbcbe6b6ee51.jpg', // 图片背景
+        repeat: true, // 开启平铺
+        widthScale: 0.5, // 平铺时，宽度占总宽度比例
+        acpectRatio: 1, // 平铺时，宽高比例
+      },
+      back: true });
+    this.$event.registerNativeEvent('resume', () => {
+    });
+    this.$event.registerNativeEvent('onBackPressed', () => {
+      const now = new Date().getTime();
+      if (now - this.lastPressedTime < 1500) {
+        this.$router.closePage();
+      } else {
+        this.$modal.toast('再按一次退出');
+        this.lastPressedTime = now;
+      }
+    });
   },
 };
 </script>

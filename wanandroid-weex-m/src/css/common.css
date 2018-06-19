@@ -1,8 +1,16 @@
+/* <style src="./css/common.css"></style> */
 .debug {
   background-color:pink;
 }
+.center {
+  justify-content: center;
+  align-items: center;
+}
 .line {
   background-color: #efefef;
-  height: 1px;
+  height: 2px;
   width: 750px;
+}
+.text {
+  color: #1a1210;
 }

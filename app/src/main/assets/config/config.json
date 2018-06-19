@@ -1,0 +1,78 @@
+{
+	"total":6,
+	"datas":[
+		{
+			"_comment": "微信公众号文章首页",
+			"pageName": "art-home-weex",
+			"remoteJs": "/art-home-weex.weex.js",
+			"appVersion": "1.0.0",
+			"jsVersion":"1.0.0",
+			"webUrl": "/art/art-home-weex",
+			"indexPage": true
+		},
+		{
+			"_comment": "错误界面",
+			"pageName": "not-found-weex",
+			"remoteJs": "/not-found-weex.weex.js",
+			"appVersion": "1.0.0",
+			"jsVersion":"1.0.0",
+			"webUrl": "/status/not-found-weex"
+		},
+		{
+			"_comment": "狗窝",
+			"pageName": "my-house-weex",
+			"remoteJs": "/my-house-weex.weex.js",
+			"appVersion": "1.0.0",
+			"jsVersion":"1.0.0",
+			"webUrl": "/my/my-house-weex"
+		},
+		{
+			"_comment": "频道",
+			"pageName": "channel-list-weex",
+			"remoteJs": "/channel-list-weex.weex.js1",
+			"appVersion": "1.0.0",
+			"jsVersion":"1.0.0",
+			"webUrl": "/channel/channel-list-weex"
+		},
+		{
+			"_comment": "首页",
+			"pageName": "wanandroid-index-weex",
+			"remoteJs": "/wanandroid-index-weex.weex.js",
+			"appVersion": "1.0.0",
+			"jsVersion":"1.0.0",
+			"webUrl": "/wanandroid/wanandroid-index-weex"
+		},
+		{
+			"_comment": "推荐",
+			"pageName": "wanandroid-recommend-weex",
+			"remoteJs": "/wanandroid-recommend-weex.weex.js",
+			"appVersion": "1.0.0",
+			"jsVersion":"1.0.0",
+			"webUrl":"/wanandroid/wanandroid-recommend-weex"
+		},
+		{
+			"_comment": "体系",
+			"pageName": "wanandroid-tree-weex",
+			"remoteJs": "/wanandroid-tree-weex.weex.js",
+			"appVersion": "1.0.0",
+			"jsVersion":"1.0.0",
+			"webUrl":"/wanandroid/wanandroid-tree-weex"
+		},
+		{
+			"_comment": "关于",
+			"pageName": "wanandroid-about-weex",
+			"remoteJs": "/wanandroid-about-weex.weex.js",
+			"appVersion": "1.0.0",
+			"jsVersion":"1.0.0",
+			"webUrl":"/wanandroid/wanandroid-about-weex"
+		},
+		{
+			"_comment": "分类选择",
+			"pageName": "wanandroid-category-weex",
+			"remoteJs": "/wanandroid-category-weex.weex.js",
+			"appVersion": "1.0.0",
+			"jsVersion":"1.0.0",
+			"webUrl":"/wanandroid/wanandroid-category-weex"
+		}
+	]
+}

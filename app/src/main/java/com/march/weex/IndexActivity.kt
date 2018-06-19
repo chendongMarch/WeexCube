@@ -7,10 +7,9 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import com.march.common.utils.immersion.ImmersionStatusBarUtils
-
+import com.march.debug.DebugActivity
 import com.march.wxcube.Weex
-import com.march.wxcube.model.WeexPage
-
+import com.march.wxcube.ui.IndexActivity
 /**
  * CreateAt : 2018/4/1
  * Describe :
@@ -32,25 +31,21 @@ class IndexActivity : AppCompatActivity() {
         initDatas()
 
         setClick(R.id.btn_wanandroid) {
-            Weex.getInst().mWeexRouter.openUrl(this@IndexActivity, "/home/home-index-weex")
+            //            Weex.getInst().mWeexRouter.openUrl(this@IndexActivity, "/home/home-index_page-weex")
+            startActivity(Intent(this, IndexActivity::class.java))
         }
         setClick(R.id.clear_cache_btn) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                Weex.getInst().mWeexJsLoader.clearCache()
+                // Weex.mWeexJsLoader.clearCache()
             }
         }
         setClick(R.id.open_test_btn) {
             initDatas()
             // Weex.getInst().mWeexRouter.openUrl(this@IndexActivity, "http://www.baidu.com/test?text=index")
         }
-        setClick(R.id.open_test_btn2) {
-            val intent = Intent(this@IndexActivity, TestActivity::class.java)
-            val page = Weex.getInst().mWeexRouter.findPage("http://www.baidu.com/test?text=index")
-            intent.putExtra(WeexPage.KEY_PAGE, page)
-            startActivity(intent)
-        }
+
         setClick(R.id.open_test_btn3) {
-            Weex.getInst().mWeexRouter.openDialog(this@IndexActivity, "http://www.baidu.com/test?text=index", null)
+            // Weex.mWeexRouter.openDialog(this@IndexActivity, "http://www.baidu.com/test?text=index_page", null)
         }
     }
 
@@ -59,6 +54,6 @@ class IndexActivity : AppCompatActivity() {
     }
 
     private fun initDatas() {
-        Weex.getInst().mWeexUpdater.updateWeexPages(IndexActivity@ this, "pages.json")
+//        Weex.getInst().mWeexUpdater.onUpdateConfig(IndexActivity@ this, "assets://config.json")
     }
 }

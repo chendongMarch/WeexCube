@@ -1,5 +1,6 @@
-include ':app', ':scanner'
+include ':app'
 include ':weex-cube'
 include ':common'
 include ':webkit'
-include ':socialsdk'
+//include ':socialsdk'
+include ':debug'

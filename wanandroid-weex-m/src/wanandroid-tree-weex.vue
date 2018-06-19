@@ -40,18 +40,15 @@
 </style>
 
 <script>
-import { request, event, router } from '../components/mixins/weex-mixins';
+import './widget';
+import { request } from '../components/mixins/weex-mixins';
 import Article from '../components/cube-article';
-
-const debug = weex.requireModule('cube-debug');
-const basic = weex.requireModule('cube-basic');
-const cubeModal = weex.requireModule('cube-modal');
 
 export default {
   components: {
     'cube-article': Article,
   },
-  mixins: [request, event, router],
+  mixins: [request],
   data() {
     return {
       height: weex.config.env.deviceHeight,
@@ -86,14 +83,18 @@ export default {
       if (!self.categoryList || self.categoryList.length === 0) {
         return;
       }
-      const config = {
-        width: 750,
-        tag: 'dialog',
-        gravity: 'bottom',
-        anim: 'btc',
-      };
-      const url = '/tree/tree-category-weex';
-      self.openDialog(url, config, { data: self.categoryList });
+      const url = '/wanandroid/wanandroid-category-weex';
+      this.$router.openDialog({
+        url,
+        config: {
+          width: 750,
+          height: 750,
+          tag: 'dialog',
+          gravity: 'bottom',
+          anim: 'btc',
+        },
+        extra: self.categoryList,
+      });
     },
     requestCategory(successCallback) {
       const self = this;
@@ -127,7 +128,7 @@ export default {
           finishCallback();
         }
       }, () => {
-        cubeModal.toast('请求失败');
+        this.$modal.toast('请求失败');
         if (finishCallback) {
           finishCallback();
         }
@@ -139,15 +140,15 @@ export default {
     self.requestCategory(() => {
       self.curCid = self.categoryList[0].children[0].id;
       self.requestArticles();
-    }); 
-    self.registerEvent('choose-category', (data) => {
+    });
+    this.$event.registerEvent('choose-category', (data) => {
       self.curCid = data.cid;
       self.curPage = 0;
       self.isArticleOver = false;
       self.treeArticles.splice(0, self.treeArticles.length);
       self.requestArticles();
-    }); 
-    self.registerEvent('open-filter-dialog', () => {
+    });
+    this.$event.registerEvent('open-filter-dialog', () => {
       self.showCategoryDialog();
     });
   },

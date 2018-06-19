@@ -1,5 +1,6 @@
 <template>
   <div class="header-wrap">
+    <image :src="imageRes.bg" resize="cover" class="bg-image"></image>
     <div class="header-center-wrap" >
       <text class="header-center">{{centerTitle}}</text>
     </div> 
@@ -13,6 +14,11 @@
 </template>
 
 <style>
+.bg-image {
+  position: absolute;
+  width: 750px;
+  height: 120px;
+}
 .header-wrap {
   border-bottom: 2px;
   border-bottom-color: #efefef;
@@ -20,7 +26,6 @@
   border-right-width: 0;
   border-top-width: 0;
   height: 120px;
-  background-color: white;
 }
 .header-center-wrap {
   width: 750px;
@@ -63,7 +68,7 @@
 </style>
 
 <script>
-const basic = weex.requireModule('cube-basic');
+
 export default {
   props: {
     centerTitle: {
@@ -95,6 +100,13 @@ export default {
       type: Function,
     },
   },
+  data() {
+    return {
+      imageRes: {
+        bg: 'http://olx4t2q6z.bkt.clouddn.com/18-6-6/5205876.jpg',
+      },
+    };
+  },
   methods: {
     clickLeftBtn() {
       if (this.leftClick) {
@@ -102,7 +114,7 @@ export default {
         return;
       }
       if (this.leftTitle) {
-        basic.close();
+        this.$router.closePage();
       }
     },
   },

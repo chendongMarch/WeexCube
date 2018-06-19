@@ -62,7 +62,6 @@
 </style>
 
 <script>
-const cubeBasic = weex.requireModule('cube-basic');
 
 module.exports = {
   name: 'cube-article',
@@ -77,7 +76,7 @@ module.exports = {
   },
   methods: {
     clickItem() {
-      cubeBasic.openWeb(this.data.link);
+      this.$router.openWeb(this.data.link);
     },
     genaratePlatformTag(link) {
       const lowerLink = link.toLowerCase();

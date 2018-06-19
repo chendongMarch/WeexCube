@@ -1,5 +1,5 @@
 <template>
-  <refresh  v-if="!disabled" class="loading-wrap" :display="makeStatus().display" @refresh="onRefresh">
+  <refresh  v-if="!finished" class="loading-wrap" :display="makeStatus().display" @refresh="onRefresh">
     <text class="loading-text">{{makeStatus().refreshMsg}}</text>
     <loading-indicator class="loading-indicator"></loading-indicator>
   </refresh>
@@ -26,6 +26,7 @@
 </style>
 
 <script>
+
 export default {
   props: {
     refreshHandler: {
@@ -36,7 +37,7 @@ export default {
       default: 'before',
       type: String,
     },
-    disabled: {
+    finished: {
       default: false,
       type: Boolean,
     },
@@ -48,7 +49,7 @@ export default {
   methods: {
     onRefresh() {
       const self = this;
-      if (self.disabled) {
+      if (self.finished) {
         return;
       }
       self.refreshHandler();
@@ -82,7 +83,6 @@ export default {
           };
           break;
       }
-      // debug.toast(`makeStatus  ${JSON.stringify(loadingStatus)}`);
       return loadingStatus;
     },
   },

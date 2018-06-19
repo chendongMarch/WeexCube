@@ -80,10 +80,8 @@
 </style>
 
 <script>
-  const basic = weex.requireModule('cube-basic');
-  const debug = weex.requireModule('cube-debug');
-  const statusBar = weex.requireModule('cube-statusbar');
-
+  import './widget';
+  
   export default {
     data() {
       return {
@@ -131,7 +129,9 @@
     },
     methods: {
       clickShowFilter() {
-        basic.postEvent('open-filter-dialog', {});
+        this.$event.postEvent({
+          event: 'open-filter-dialog',
+        });
       },
       clickSwitchTab(tab) {
         const self = this;
@@ -139,17 +139,17 @@
           item.selected = false;
         });
         tab.selected = true;
-        basic.showTab(tab.tag);
+        this.$page.showTab({
+          tag: tab.tag,
+        });
         this.curTab = tab;
       },
     },
     created() {
       this.curTab = this.tabs[0];
-      if (statusBar) {
-        statusBar.transluteStatusBar();
-        statusBar.setStatusBarLight();
-      }
-      basic.loadTabs(this.tabs);
+      this.$page.loadTabs({
+        tabs: this.tabs,
+      });
     },
   };
 </script>

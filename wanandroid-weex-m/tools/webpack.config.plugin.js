@@ -6,7 +6,7 @@ const path = require('path');
 const fs = require('fs');
 
 const root = process.cwd();
-console.log(`chendong${  root}`);
+
 module.exports = {
   entry: {
     plugins: [path.join(root, 'plugins/plugin_bundle.js')],

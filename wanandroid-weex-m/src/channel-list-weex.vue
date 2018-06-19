@@ -4,9 +4,10 @@
     :leftStyle="{fontSize:40+'px'}"
     leftTitle=" 👈 "
     :centerTitle="title"></cube-header>
+
     <div class="holder-wrap" v-if="articles.length === 0">
       <image src="http://img.zcool.cn/community/0195f55972f18ca8012193a342310a.gif" class="holder-img"></image>
-    </div>
+    </div> 
     <list>
       <cube-refresh
       :status="refreshStatus"
@@ -20,9 +21,11 @@
              <text class="item-desc">{{item.createdAt.substr(0,item.createdAt.indexOf(' '))}}   {{item.from}}</text>
            </div>
         </div>
+        <div class="line"></div>
       </cell>
       <cube-loading
-      :disabled="finishedArticleReq"
+      :loadingMsg="loadingMsg"
+      :finished="finishedArticleReq"
       :status="loadingStatus"
       :loadingHandler="loadingHandler"
       ></cube-loading>
@@ -34,7 +37,7 @@
 <style src="./css/common.css"></style>
 <style>
 .content-wrap {
-  background-color: #efefef;
+  /* background-color: white; */
 }
 .holder-img {
   width: 300px;
@@ -48,22 +51,18 @@
   justify-content: center;
   align-items: center;
 }
-.holder-indicator {
-  width: 100px;
-  height: 100px;
-  transform:rotate(180deg);
-        transition: all 2s;
-}
+
 .cell-wrap {
+  /* background-color: #efefef; */
   width: 750px;
 }
 .item-image {
-  background-color: white;
+  /* background-color: white; */
   width: 150px;
   height: 150px;
 }
 .item-wrap {
-  background-color: white;
+  /* background-color: white; */
   width: 750px;
   height: 250px;
   flex-direction: row;
@@ -87,15 +86,12 @@
 </style>
 
 <script>
+import './widget';
 import { makeBmobConfig } from './js/common';
 import Header from '../components/cube-header';
 import Loading from '../components/cube-loading';
 import Refresh from '../components/cube-refresh';
 import { request } from '../components/mixins/weex-mixins';
-
-const basic = weex.requireModule('cube-basic');
-const debug = weex.requireModule('cube-debug');
-const modal = weex.requireModule('cube-modal');
 
 export default {
   mixins: [request],
@@ -106,6 +102,7 @@ export default {
   },
   data() {
     return {
+      loadingMsg: '',
       articleCount: 0,
       refreshStatus: 'before',
       loadingStatus: 'before',
@@ -130,13 +127,15 @@ export default {
   },
   methods: {
     clickLeft() {
-      basic.close();
+      this.$router.closePage();
     },
     refreshHandler() {
       const self = this;
       self.pageOffset = 0;
       self.articles.splice(0, self.articles.length);
       self.refreshStatus = 'doing';
+      self.finishedArticleReq = false;
+      self.refreshStatus = 'before';
       self.requestChannels(() => {
         self.refreshStatus = 'after';
       });
@@ -149,41 +148,55 @@ export default {
       });
     },
     clickArticle(article) {
-      basic.openWeb(article.content);
+      this.$router.openWeb(article.content);
     },
     requestCount() {
       const self = this;
       const config = makeBmobConfig('select count(*) from Article where channel=?', `"${self.channel}"`);
-      this.request(config, (resp) => {
-        if (resp && resp.count) {
-          self.articleCount = resp.count;
-          modal.toast(`共 ${self.articleCount} 篇文章`);
-        }
-      });
+      config.loading = false;
+      this.fetch(config)
+        .then((resp) => {
+          if (resp && resp.count) {
+            self.articleCount = resp.count;
+          }
+        })
+        .catch((error) => {
+          this.$debug.log(JSON.stringify(error));
+        });
     },
     requestChannels(callback) {
       const self = this;
       const config = makeBmobConfig('select * from Article where channel = ? limit ?,? count=0 order by -createdAt', `"${self.channel}", ${self.pageOffset}, ${self.pageCount}`);
-      this.request(config, (resp) => {
-        if (resp && resp.results) {
-          if (resp.results.length < self.pageCount) {
-            // modal.toast('没有更多数据');
-            self.finishedArticleReq = true;
-          }
-          resp.results.forEach((item) => {
-            self.articles.push(item);
-          });
-          self.pageOffset = self.articles.length;
-          if (callback) {
+      config.loading = false;
+      this.fetch(config)
+        .then((resp) => {
+          if (resp && resp.results) {
+            if (resp.results.length < self.pageCount) {
+              self.finishedArticleReq = true;
+            }
+            resp.results.forEach((item) => {
+              self.articles.push(item);
+            });
+            self.loadingMsg = `还有 ${self.articleCount - self.articles.length} 篇文章...`;
+            self.pageOffset = self.articles.length;
+            if (callback) {
+              callback();
+            }
+          } else if (callback) {
             callback();
           }
-        } else if (callback) {
-          callback();
-        }
-      });
+        })
+        .catch((error) => {
+          this.$debug.log(JSON.stringify(error));
+        });
     },
   },
   created() {
+    this.$page.initPage({
+      background: {
+        color: '#ffffff',
+      },
+    });
     this.requestCount();
     setTimeout(() => {
       this.requestChannels();

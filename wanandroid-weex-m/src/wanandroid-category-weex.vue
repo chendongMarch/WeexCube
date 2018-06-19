@@ -57,16 +57,14 @@
 </style>
 
 <script>
+import './widget';
 import { request } from '../components/mixins/weex-mixins';
-
-const debug = weex.requireModule('cube-debug');
-const cubeBasic = weex.requireModule('cube-basic');
 
 export default {
   minxins: [request],
   data() {
     return {
-      categoryList: weex.config.extraData.data,
+      categoryList: weex.config.extra,
       levelTwoCategory: [],
     };
   },
@@ -75,8 +73,8 @@ export default {
       this.levelTwoCategory = category.children;
     },
     clickTwoLevel(twoLevelCategory) {
-      cubeBasic.close();
-      cubeBasic.postEvent('choose-category', { cid: twoLevelCategory.id });
+      this.$router.closePage();
+      this.$event.postEvent('choose-category', { cid: twoLevelCategory.id });
     },
   },
   created() {
